@@ -5,14 +5,17 @@ import static org.springframework.http.MediaType.TEXT_PLAIN;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+@Import({HelloRouter.class, HelloHandler.class})
 @WebFluxTest
 class WebfluxDemoApplicationTest {
   private static final String TEST_MESSAGE = "Welcome to the Webflux Demo";
+  private static final String TEST_FUNCTIONAL_MESSAGE = "Welcome to the functional Webflux Demo";
 
   @Autowired private WebTestClient webTestClient;
 
@@ -47,7 +50,7 @@ class WebfluxDemoApplicationTest {
             .getResponseBody()
             .log();
 
-    StepVerifier.create(msg$).expectNext(TEST_MESSAGE).verifyComplete();
+    StepVerifier.create(msg$).expectNext(TEST_FUNCTIONAL_MESSAGE).verifyComplete();
   }
 
   @Test
@@ -79,6 +82,6 @@ class WebfluxDemoApplicationTest {
             .returnResult(String.class)
             .getResponseBody()
             .log();
-    StepVerifier.create(msg$).expectNext(TEST_MESSAGE).verifyComplete();
+    StepVerifier.create(msg$).expectNext(TEST_FUNCTIONAL_MESSAGE).verifyComplete();
   }
 }
